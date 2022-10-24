@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.MainPage">
+
+    <TabBar>
+        <Tab Title="Kalender">
+            <ShellContent x:Name="ShellContent1">
+                <ContentPage x:Name="cp1">
+
+                </ContentPage>
+            </ShellContent>
+        </Tab>
+        <Tab Title="Users">
+            <ShellContent Title="Users">
+                <ContentPage>
+                    <Label Text="users content"/>
+                </ContentPage>
+            </ShellContent>
+        </Tab>
+        <Tab Title="Settings">
+            <ShellContent Title="Settings">
+                <ContentPage>
+                    <Label Text="settings content"/>
+                </ContentPage>
+            </ShellContent>
+        </Tab>
+    </TabBar>
+    
+    <!--<Grid x:Name="maingrid"></Grid>-->
+    <!--<ScrollView>
+        
+        <Label x:Name="testlabel"></Label>
+    </ScrollView>-->
+
+</Shell>
