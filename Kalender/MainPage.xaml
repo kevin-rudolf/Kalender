@@ -6,9 +6,12 @@
     <TabBar>
         <Tab Title="Kalender">
             <ShellContent x:Name="ShellContent1">
-                <ContentPage x:Name="cp1">
-
-                </ContentPage>
+                <VerticalStackLayout>
+                    <ContentPage x:Name="cp1" >
+                        
+                        
+                    </ContentPage>
+                </VerticalStackLayout>
             </ShellContent>
         </Tab>
         <Tab Title="Users">

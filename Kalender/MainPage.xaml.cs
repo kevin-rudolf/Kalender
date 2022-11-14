@@ -73,6 +73,11 @@ public partial class MainPage
             //fülle so lange bis Vormonat letzten erreicht ist
             for (var k = 0; k < grayfields * -1; k++)
             {
+                grid.Add(new Frame
+                {
+                    CornerRadius = 25,
+                    BackgroundColor = Colors.LightGray
+                }, k, 0);
                 grid.Add(new Label
                 {
                     Text = realdate.AddDays(dayscounter).Day.ToString()+"."+realdate.AddDays(dayscounter).Month.ToString()+".",
@@ -93,6 +98,11 @@ public partial class MainPage
 
                 if(firstday.AddDays(dayscounter).ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"))
                 {
+                    grid.Add(new Frame
+                    {
+                        CornerRadius = 25,
+                        BackgroundColor = Colors.LightGray
+                    }, j, i);
                     grid.Add(new Label
                     {
                         Text = firstday.AddDays(dayscounter).Day.ToString(),
@@ -107,6 +117,11 @@ public partial class MainPage
                 {
                     if(firstday.AddDays(dayscounter).Year > lastDayOfMonth.Year)
                     {
+                        grid.Add(new Frame
+                        {
+                            CornerRadius = 25,
+                            BackgroundColor = Colors.LightGray
+                        }, j, i);
                         grid.Add(new Label
                         {
                             Text = lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString() + "." + lastDayOfMonth.AddDays(1).Month.ToString() + "."+lastDayOfMonth.AddDays(1).Year.ToString(),
@@ -119,6 +134,11 @@ public partial class MainPage
                     }
                     else
                     {
+                        grid.Add(new Frame
+                        {
+                            CornerRadius = 25,
+                            BackgroundColor = Colors.LightGray
+                        }, j, i);
                         grid.Add(new Label
                         {
                             Text = lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString() + "." + lastDayOfMonth.AddDays(1).Month.ToString() + ".",
@@ -132,6 +152,11 @@ public partial class MainPage
                 }
                 else
                 {
+                    grid.Add(new Frame
+                    {
+                        CornerRadius = 25,
+                        BackgroundColor = Colors.LightGray
+                    }, j, i);
                     grid.Add(new Label
                     {
                         Text = firstday.AddDays(dayscounter).Day.ToString(),

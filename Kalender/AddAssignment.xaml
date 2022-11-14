@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.AddAssignment"
+             Title="AddAssignment">
+    <StackLayout>
+        <Label x:Name="lbl_titel"/>
+        <VerticalStackLayout>
+            
+<!-- auftragsid -->
+            <Grid Margin="45">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Entry x:Name="lbl_editor" Placeholder="Bearbeiter" IsEnabled="False" Grid.Row="0" Grid.Column="0" Margin="0,0,15,40"/>
+                <Picker x:Name="lbl_customers" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+
+                <Entry x:Name="Destination" Placeholder="Reiseziel und Aufenthaltsgrund" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+
+                <DatePicker x:Name="dpp_return" Grid.Row="2" Grid.Column="0" HorizontalOptions="FillAndExpand" Margin="0,0,0,40"/>
+                <DatePicker x:Name="dpp_departure" Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.Column="1" Margin="0,0,0,40"/>
+
+                <Entry x:Name="lbl_note" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+
+                <Button Text="Urlaub Löschen" Grid.Row="4" Grid.Column="0" />
+                <Button Text="Urlaub Anlegen" Grid.Row="4" Grid.Column="1" />
+            </Grid>
+        </VerticalStackLayout>
+    </StackLayout>
+</ContentPage>
