@@ -11,5 +11,8 @@ namespace Kalender
         public static int editorid { get; set; }
         public static string editorname { get; set; }
         public static string editorsurname { get; set; }
+        public static int monthcounter { get; set; }
+        public static int currentday { get; set; }
+        public static int currentmonth { get; set; }
     }
 }

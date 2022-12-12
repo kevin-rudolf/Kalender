@@ -3,6 +3,5 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kalender.CalendarView"
              Title="CalendarView"
-             x:Name="maingrid">
-    
+             x:Name="mainpage">
 </ContentPage>

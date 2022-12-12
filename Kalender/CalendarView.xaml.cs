@@ -1,4 +1,6 @@
 //using Android.App;
+//using Android.App;
+//using Android.Provider;
 using Microsoft.Maui.Controls;
 
 namespace Kalender;
@@ -8,6 +10,7 @@ public partial class CalendarView : ContentPage
 	public CalendarView()
 	{
 		InitializeComponent();
+        SessionData.monthcounter = 0;
 
         CreateGrid();
 
@@ -21,7 +24,53 @@ public partial class CalendarView : ContentPage
         SessionData.editorsurname = "kevin";
     }
 
+    private HorizontalStackLayout CreateArrows()
+    {
+        HorizontalStackLayout hstl = new HorizontalStackLayout();
+
+        var pic_tap_left = new TapGestureRecognizer();
+        pic_tap_left.Tapped += (s, e) =>
+        {
+            SessionData.monthcounter--;
+            CreateGrid();
+            FillBasicData();
+        };
+
+        var pic_tap_right = new TapGestureRecognizer();
+        pic_tap_right.Tapped += (s, e) =>
+        {
+            SessionData.monthcounter++;
+            CreateGrid();
+            FillBasicData();
+        };
+
+        Image image = new Image();
+        image.Source = "arrow_left.png";
+        image.Bounds.Inflate(10, 10);
+        image.GestureRecognizers.Add(pic_tap_left);
+
+        Image image2 = new Image();
+        image2.Source = "arrow_left.png";
+        image2.RotateTo(180);
+        image2.Bounds.Inflate(10, 10);
+        image2.GestureRecognizers.Add(pic_tap_right);
+
+        Label lblmonth = new Label();
+        lblmonth.Text = basicdate.Month.ToString();
+
+        hstl.Children.Add(image);
+        hstl.Children.Add(lblmonth);
+        hstl.Children.Add(image2);
+
+        hstl.Margin = 10;
+        hstl.Spacing = 350;
+        hstl.HorizontalOptions = LayoutOptions.Center;
+
+        return hstl;
+    }
+
     private DateTime basicdate = new DateTime();
+    private HorizontalStackLayout hzl = new HorizontalStackLayout();
 
     private void CreateGrid() //AND additional line (including arrows)
     {
@@ -72,7 +121,8 @@ public partial class CalendarView : ContentPage
             }
         };
 
-        basicdate = DateTime.Now;
+        basicdate = DateTime.Now.AddMonths(SessionData.monthcounter);
+        //basicdate = DateTime.Now.AddMonths(1);
         DateTime realdate = new DateTime();
         var firstday = new DateTime(basicdate.Year, basicdate.Month, 1);
         var lastDayOfMonth = firstday.AddMonths(1).AddDays(-1);
@@ -80,9 +130,9 @@ public partial class CalendarView : ContentPage
         int grayfields = (((int)firstday.DayOfWeek) - 1) * -1;
 
         //1. Tag vom Vormonat
-        var fDoLM = new DateTime(basicdate.Year, basicdate.Month - 1, 1);
+        var fDoLM = new DateTime(basicdate.Year, basicdate.AddMonths(-1).Month, 1);
         //Letzter Tag vom Vormonat
-        var lDoLM = fDoLM.AddMonths(1).AddDays(-1);
+        var lDoLM = new DateTime(fDoLM.Year, fDoLM.Month, DateTime.DaysInMonth(fDoLM.Year, fDoLM.Month));
 
         //letzter Tag vom Vormonat - die auszublendenten Tage vom Vormonat = Datum wo Montag sein müsste
         realdate = lDoLM.AddDays(grayfields + 1);
@@ -150,7 +200,7 @@ public partial class CalendarView : ContentPage
                     {
                         Frame f = new Frame();
                         f.CornerRadius = 25;
-                        f.BackgroundColor = Colors.LightGray;
+                        f.BackgroundColor = Colors.Blue;
 
                         f.GestureRecognizers.Add(label_tap);
 
@@ -205,7 +255,7 @@ public partial class CalendarView : ContentPage
                     l.VerticalOptions = LayoutOptions.Center;
 
                     Label l2 = new Label();
-                    l2.Text = "STOPSTOP";
+                    l2.Text = "-";
                     l2.HorizontalOptions = LayoutOptions.Center;
                     l2.VerticalOptions = LayoutOptions.Center;
 
@@ -225,8 +275,18 @@ public partial class CalendarView : ContentPage
                 }
             }
         }
+        //SessionData.currentmonth = ((Label)grid.Children.ElementAt(0)).Text;
+        //SessionData.currentday = 
 
-        maingrid.Content = grid;
+
+
+        StackLayout stl = new StackLayout();
+        stl.Children.Add(CreateArrows());
+        stl.Children.Add(grid);
+
+        mainpage.Content = stl;
+
+        
 
     }
 
