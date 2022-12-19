@@ -14,5 +14,8 @@ namespace Kalender
         public static int monthcounter { get; set; }
         public static int currentday { get; set; }
         public static int currentmonth { get; set; }
+        public static string titel { get; set; }
+        public static string assdate { get; set; }
+
     }
 }
