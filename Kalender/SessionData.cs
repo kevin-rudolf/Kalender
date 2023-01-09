@@ -16,6 +16,8 @@ namespace Kalender
         public static int currentmonth { get; set; }
         public static string titel { get; set; }
         public static string assdate { get; set; }
-
+        
+        //temp solution until API func --ApiHandler-- is working
+        public static Dictionary<DateTime, string> datadic = new Dictionary<DateTime, string>();
     }
 }

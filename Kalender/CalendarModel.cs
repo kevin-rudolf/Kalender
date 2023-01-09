@@ -8,6 +8,8 @@ namespace Kalender
 {
     public static class CalendarModel
     {
+        //should be changed but works well for testing
         public static DateTime CurrentDate { get; set; }
+        //API Model
     }
 }

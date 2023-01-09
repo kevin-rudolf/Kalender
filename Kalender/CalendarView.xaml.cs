@@ -1,16 +1,18 @@
-//using Android.App;
-//using Android.App;
-//using Android.Provider;
-//using Java.Util.Concurrent;
-using Microsoft.Maui.Controls;
-
 namespace Kalender;
 
 public partial class CalendarView : ContentPage
 {
-	public CalendarView()
-	{
-		InitializeComponent();
+    public CalendarView()
+    {
+        InitializeComponent();
+
+        #region Temp
+        //temp-part --> custom test-api-data
+        SessionData.datadic.Add(new DateTime(2023, 01, 09), "SWP-Stunde");
+        SessionData.datadic.Add(new DateTime(2023, 01, 15), "Event #1");
+        SessionData.datadic.Add(new DateTime(2023, 01, 25), "Event #2");
+        #endregion
+
         SessionData.monthcounter = 0;
 
         CreateGrid();
@@ -20,12 +22,14 @@ public partial class CalendarView : ContentPage
 
     private void FillBasicData()
     {
+        //will be changed to api
         SessionData.editorname = "rudolf";
         SessionData.editorsurname = "kevin";
     }
 
     private HorizontalStackLayout CreateArrows()
     {
+        //basic creation of arrows and month --> header
         HorizontalStackLayout hstl = new HorizontalStackLayout();
 
         var pic_tap_left = new TapGestureRecognizer();
@@ -59,7 +63,7 @@ public partial class CalendarView : ContentPage
         image2.GestureRecognizers.Add(pic_tap_right);
 
         Label lblmonth = new Label();
-        lblmonth.Text = basicdate.ToString("MMMM")+" "+basicdate.Year.ToString();
+        lblmonth.Text = basicdate.ToString("MMMM") + " " + basicdate.Year.ToString();
         lblmonth.VerticalTextAlignment = TextAlignment.Center;
         lblmonth.VerticalOptions = LayoutOptions.Center;
         lblmonth.FontAttributes = FontAttributes.Bold;
@@ -81,6 +85,7 @@ public partial class CalendarView : ContentPage
 
     public void CreateGrid()
     {
+        //click on any calendar frames
         var label_tap = new TapGestureRecognizer();
         label_tap.Tapped += (s, e) =>
         {
@@ -96,6 +101,7 @@ public partial class CalendarView : ContentPage
             Navigation.PushAsync(new AddAssignment());
         };
 
+        //Grid creation 
         Grid grid = new Grid
         {
             Margin = new Thickness(40, 20, 40, 0),
@@ -120,74 +126,82 @@ public partial class CalendarView : ContentPage
             }
         };
 
+        //filling basic vars 
         basicdate = DateTime.Now.AddMonths(SessionData.monthcounter);
-        //basicdate = DateTime.Now.AddMonths(1);
         DateTime realdate = new DateTime();
         var firstday = new DateTime(basicdate.Year, basicdate.Month, 1);
         var lastDayOfMonth = firstday.AddMonths(1).AddDays(-1);
-        //Wie viele Felder vom Vormonat müssen ausgeblendet werden bis heute ist
+        //how many fields of the pre-month are shown?
         int grayfields = (((int)firstday.DayOfWeek) - 1) * -1;
-        if(grayfields == 1)
+        if (grayfields == 1)
         {
             grayfields = -6;
         }
 
-        //1. Tag vom Vormonat
+        //first day of pre-Month
         var fDoLM = new DateTime(basicdate.Year, basicdate.AddMonths(-1).Month, 1);
-        //Letzter Tag vom Vormonat
+        //last day of pre-Month
         var lDoLM = new DateTime(fDoLM.Year, fDoLM.Month, DateTime.DaysInMonth(fDoLM.Year, fDoLM.Month));
 
-        //letzter Tag vom Vormonat - die auszublendenten Tage vom Vormonat = Datum wo Montag sein müsste
-        realdate = lDoLM.AddDays(grayfields+1);
+        //last Day of pre-Month - the hidden fields = the monday-date
+        realdate = lDoLM.AddDays(grayfields + 1);
 
         int dayscounter = 0;
         int dayscounter_nextmonth = 1;
 
-        //DisplayAlert(grayfields.ToString(), "OK", "OK");
-        //DisplayAlert(Convert.ToString((int)firstday.DayOfWeek), "OK", "OK");
-
-        //wenn der 1. Tag des Monats nicht Montag ist
+        //if first day of month isn't monday
         if (((int)firstday.DayOfWeek) != 1)
         {
-            //fülle so lange bis Vormonat letzten erreicht ist
-                for (var k = 0; k < grayfields * -1; k++)
+            //fill until pre-Month is over
+            for (var k = 0; k < grayfields * -1; k++)
+            {
+                //field creation
+                Frame f = new Frame();
+                f.BackgroundColor = Colors.LightGray;
+
+                f.GestureRecognizers.Add(label_tap);
+
+                Label l = new Label();
+                l.Text = realdate.AddDays(dayscounter).Day.ToString() + "." + realdate.AddDays(dayscounter).Month.ToString() + "." + realdate.AddDays(dayscounter).Year.ToString();
+                l.HorizontalOptions = LayoutOptions.Center;
+                l.VerticalOptions = LayoutOptions.Center;
+                l.TextColor = Color.Parse("Black");
+
+                Label l2 = new Label();
+                l2.HorizontalOptions = LayoutOptions.Center;
+                l2.VerticalOptions = LayoutOptions.Center;
+
+                DateTime dt = new DateTime(Convert.ToInt32(realdate.AddDays(dayscounter).Year.ToString()), Convert.ToInt32(realdate.AddDays(dayscounter).Month.ToString()), Convert.ToInt32(realdate.AddDays(dayscounter).Day.ToString()));
+
+                try
                 {
-                    Frame f = new Frame();
-                    f.BackgroundColor = Colors.LightGray;
-
-                    f.GestureRecognizers.Add(label_tap);
-
-
-                    Label l = new Label();
-                    l.Text = realdate.AddDays(dayscounter).Day.ToString() + "." + realdate.AddDays(dayscounter).Month.ToString() + "." + realdate.AddDays(dayscounter).Year.ToString();
-                    l.HorizontalOptions = LayoutOptions.Center;
-                    l.VerticalOptions = LayoutOptions.Center;
-                    l.TextColor = Color.Parse("Black");
-
-                    Label l2 = new Label();
-                    l2.HorizontalOptions = LayoutOptions.Center;
-                    l2.VerticalOptions = LayoutOptions.Center;
-                    if (SessionData.assdate == l.Text && SessionData.titel != "")
+                    if (SessionData.datadic[dt] != "")
                     {
-                        l2.Text = SessionData.titel;
+                        l2.Text = SessionData.datadic[dt];
                     }
                     else
                     {
                         l2.Text = "-";
                     }
-                    
-                    VerticalStackLayout vsl = new VerticalStackLayout();
-
-                    vsl.Children.Add(l);
-                    vsl.Children.Add(l2);
-
-                    f.Content = vsl;
-
-                    grid.Add(f, k, 0);
-
-                    dayscounter++;
                 }
-                dayscounter = 0;
+                catch (Exception ex)
+                {
+                    //if date is not in dictionray skip
+                }
+
+
+                VerticalStackLayout vsl = new VerticalStackLayout();
+
+                vsl.Children.Add(l);
+                vsl.Children.Add(l2);
+
+                f.Content = vsl;
+
+                grid.Add(f, k, 0);
+
+                dayscounter++;
+            }
+            dayscounter = 0;
         }
 
         for (int i = 0; i < 6; i++)
@@ -196,7 +210,7 @@ public partial class CalendarView : ContentPage
             {
                 if (i == 0 && j < grayfields * -1) continue;
 
-                //Heute Rot
+                //fill today -- different color
                 if (firstday.AddDays(dayscounter).ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"))
                 {
                     Frame f = new Frame();
@@ -215,13 +229,22 @@ public partial class CalendarView : ContentPage
                     Label l2 = new Label();
                     l2.HorizontalOptions = LayoutOptions.Center;
                     l2.VerticalOptions = LayoutOptions.Center;
-                    if (SessionData.assdate == l.Text && SessionData.titel != "")
+
+                    DateTime dt = new DateTime(Convert.ToInt32(firstday.AddDays(dayscounter).Year.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Month.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Day.ToString()));
+                    try
                     {
-                        l2.Text = SessionData.titel;
+                        if (SessionData.datadic[dt] != "")
+                        {
+                            l2.Text = SessionData.datadic[dt];
+                        }
+                        else
+                        {
+                            l2.Text = "-";
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        l2.Text = "-";
+                        //if date is not in Dictionary skip
                     }
 
                     VerticalStackLayout vsl = new VerticalStackLayout();
@@ -235,10 +258,10 @@ public partial class CalendarView : ContentPage
 
                     dayscounter++;
                 }
-                //alle felder vor / nach Graubereich
+                //all fields pre / past hidden-fields
                 else if (firstday.AddDays(dayscounter).Month > lastDayOfMonth.Month || firstday.AddDays(dayscounter).Year > lastDayOfMonth.Year)
                 {
-                    //wenn Felder nach Graubereich sind
+                    //if fields are hidden
                     if (firstday.AddDays(dayscounter).Year > lastDayOfMonth.Year || firstday.AddDays(dayscounter).Month > lastDayOfMonth.Month)
                     {
                         Frame f = new Frame();
@@ -256,27 +279,35 @@ public partial class CalendarView : ContentPage
                         Label l2 = new Label();
                         l2.HorizontalOptions = LayoutOptions.Center;
                         l2.VerticalOptions = LayoutOptions.Center;
-                        if (SessionData.assdate == l.Text && SessionData.titel != "")
+
+                        DateTime dt = new DateTime(Convert.ToInt32(lastDayOfMonth.AddDays(1).Year.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(1).Month.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString()));
+                        try
                         {
-                            l2.Text = SessionData.titel;
+                            if (SessionData.datadic[dt] != "")
+                            {
+                                l2.Text = SessionData.datadic[dt];
+                            }
+                            else
+                            {
+                                l2.Text = "-";
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            l2.Text = "-";
+                            //if date is not in Dictionary skip
                         }
 
                         VerticalStackLayout vsl = new VerticalStackLayout();
 
                         vsl.Children.Add(l);
                         vsl.Children.Add(l2);
-
                         f.Content = vsl;
 
                         grid.Add(f, j, i);
 
                         dayscounter_nextmonth++;
                     }
-                    //wenn Felder vor Graubereich sind
+                    //if fields are located bevore the hidden part
                     else
                     {
                         Frame f = new Frame();
@@ -294,13 +325,21 @@ public partial class CalendarView : ContentPage
                         Label l2 = new Label();
                         l2.HorizontalOptions = LayoutOptions.Center;
                         l2.VerticalOptions = LayoutOptions.Center;
-                        if (SessionData.assdate == l.Text && SessionData.titel != "")
+                        DateTime dt = new DateTime(Convert.ToInt32(lastDayOfMonth.AddDays(1).Year.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(1).Month.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString()));
+                        try
                         {
-                            l2.Text = SessionData.titel;
+                            if (SessionData.datadic[dt] != "")
+                            {
+                                l2.Text = SessionData.datadic[dt];
+                            }
+                            else
+                            {
+                                l2.Text = "-";
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            l2.Text = "-";
+                            //if date is not in Dictionary skip
                         }
 
                         VerticalStackLayout vsl = new VerticalStackLayout();
@@ -317,29 +356,36 @@ public partial class CalendarView : ContentPage
                 }
                 else
                 {
-
+                    //every field which is just a normal day in the current month (not past, not pre, not today)
                     Frame f = new Frame();
                     f.BackgroundColor = Colors.Gray;
-                    
+
                     f.GestureRecognizers.Add(label_tap);
-                    
+
 
                     Label l = new Label();
-                    l.Text = firstday.AddDays(dayscounter).Day.ToString()+"."+ firstday.AddDays(dayscounter).Month.ToString()+"."+ firstday.AddDays(dayscounter).Year.ToString();
+                    l.Text = firstday.AddDays(dayscounter).Day.ToString() + "." + firstday.AddDays(dayscounter).Month.ToString() + "." + firstday.AddDays(dayscounter).Year.ToString();
                     l.HorizontalOptions = LayoutOptions.Center;
                     l.VerticalOptions = LayoutOptions.Center;
 
                     Label l2 = new Label();
                     l2.HorizontalOptions = LayoutOptions.Center;
                     l2.VerticalOptions = LayoutOptions.Center;
-                    if (SessionData.assdate == l.Text && SessionData.titel != "")
+                    DateTime dt = new DateTime(Convert.ToInt32(firstday.AddDays(dayscounter).Year.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Month.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Day.ToString()));
+                    try
                     {
-                        l2.Text = SessionData.titel;
-                        l2.FontAttributes = FontAttributes.Bold;
+                        if (SessionData.datadic[dt] != "")
+                        {
+                            l2.Text = SessionData.datadic[dt];
+                        }
+                        else
+                        {
+                            l2.Text = "-";
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        l2.Text = "-";
+                        //if date is not in Dictionary skip
                     }
 
                     VerticalStackLayout vsl = new VerticalStackLayout();
@@ -349,24 +395,17 @@ public partial class CalendarView : ContentPage
 
                     f.Content = vsl;
 
-                    //f.Content = l;
-                    
                     grid.Add(f, j, i);
-                    
 
                     dayscounter++;
                 }
             }
         }
-
         StackLayout stl = new StackLayout();
         stl.Children.Add(CreateArrows());
         stl.Children.Add(grid);
 
         mainpage.Content = stl;
-
-        
-
     }
 
 }
