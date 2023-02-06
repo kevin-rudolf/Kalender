@@ -25,9 +25,11 @@
 
                 <Entry x:Name="datetitel" Placeholder="Titel" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
 
-                <DatePicker x:Name="dpp_return" Grid.Row="2" Grid.Column="0" MinimumWidthRequest="200" HorizontalOptions="FillAndExpand" Margin="0,0,0,40"/>
-                <Entry x:Name="lbl_destination" Placeholder="Reiseziel" IsEnabled="True" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_plz" TextChanged="OnPLZChanged" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40" ></Entry>
+                <Entry x:Name="lbl_destination" IsEnabled="True" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
 
+                <DatePicker x:Name="dpp_return" Grid.Row="3" MinimumWidthRequest="200" HorizontalOptions="FillAndExpand" Margin="0,0,0,40"/>
+                
                 <Button Text="Termin löschen" Clicked="OnButtonDeleteClicked" Grid.Row="4" Margin="10" Grid.Column="0" />
                 <Button Text="Termin anlegen" Clicked="OnButtonAddClicked" Grid.Row="4" Margin="10" Grid.Column="1" />
             </Grid>

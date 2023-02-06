@@ -49,6 +49,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Raw\PLZ_Verzeichnis_Österreich.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="AddAssignment.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

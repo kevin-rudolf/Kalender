@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,17 @@ namespace Kalender
         {
             //Fill API Data
         }
+
+        //public static string[] GetPlaces(string plz)
+        //{
+        //    string[] places = new string[SessionData.plzdata.Count];
+        //    for (int i = 0; i < SessionData.plzdata.Count; i++)
+        //    {
+        //        places[i] = SessionData.plzdata[plz];
+        //    }
+        //    //plzdata[plz]
+
+        //    return places;
+        //}
     }
 }

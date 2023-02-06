@@ -19,5 +19,6 @@ namespace Kalender
         
         //temp solution until API func --ApiHandler-- is working
         public static Dictionary<DateTime, string> datadic = new Dictionary<DateTime, string>();
+        public static Dictionary<string, string> plzdata = new Dictionary<string, string>();
     }
 }

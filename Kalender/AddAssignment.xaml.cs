@@ -1,4 +1,5 @@
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 
 namespace Kalender;
 
@@ -42,7 +43,34 @@ public partial class AddAssignment : ContentPage
 		{
 			//if Dictionary doesn't contain CurrentDate
 		}
-	}
+
+		ReadTextFile();
+    }
+
+    public async void ReadTextFile()
+    {
+        using Stream fileStream = await FileSystem.Current.OpenAppPackageFileAsync("PLZ_Verzeichnis_Österreich.csv");
+        using StreamReader reader = new StreamReader(fileStream, UTF8Encoding.Default);
+
+        while (!reader.EndOfStream)
+        {
+            string line = reader.ReadLine();
+            string[] temp = line.Split(";");
+            SessionData.plzdata.Add(temp[0], temp[1]);
+        }
+    }
+
+    private void OnPLZChanged(object sender, EventArgs args)
+	{
+		//DisplayAlert("TEST","HUSO", "OK");
+        try
+        {
+				lbl_destination.Text = "";
+				lbl_destination.Text = SessionData.plzdata[lbl_plz.Text];
+        }
+        catch { }
+    }
+
 	private void OnButtonAddClicked(object sender, EventArgs args)
     {
 		//Outdated creation just testing some stuff 
