@@ -49,6 +49,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\mail.svg" />
+	  <None Remove="Resources\Images\person.svg" />
 	  <None Remove="Resources\Raw\PLZ_Verzeichnis_Österreich.csv" />
 	</ItemGroup>
 

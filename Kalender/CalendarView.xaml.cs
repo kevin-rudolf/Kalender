@@ -1,3 +1,5 @@
+using Kalender.Models;
+
 namespace Kalender;
 
 public partial class CalendarView : ContentPage
@@ -23,8 +25,8 @@ public partial class CalendarView : ContentPage
     private void FillBasicData()
     {
         //will be changed to api
-        SessionData.editorname = "rudolf";
-        SessionData.editorsurname = "kevin";
+        SessionData.editorname = "Rudolf";
+        SessionData.editorsurname = "Kevin";
     }
 
     private HorizontalStackLayout CreateArrows()
@@ -95,7 +97,7 @@ public partial class CalendarView : ContentPage
             Label l = (Label)verticalStackLayout.Children[0];
             Label l2 = (Label)verticalStackLayout.Children[1];
 
-            CalendarModel.CurrentDate = Convert.ToDateTime(l.Text);
+            SessionData.CurrentDate = Convert.ToDateTime(l.Text);
 
             Navigation.PopAsync();
             Navigation.PushAsync(new AddAssignment());

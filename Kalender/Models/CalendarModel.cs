@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kalender
+namespace Kalender.Models
 {
     public static class CalendarModel
     {
-        //should be changed but works well for testing
-        public static DateTime CurrentDate { get; set; }
+        //should be changed but works well for testin
         //API Model
     }
 }

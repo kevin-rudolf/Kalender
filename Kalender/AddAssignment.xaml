@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kalender.AddAssignment"
-             Title="Terminverwaltung">
+             Title="Terminverwaltung"
+             x:Name="cp_main">
     <StackLayout>
         <Label x:Name="lbl_titel"/>
         <VerticalStackLayout>
@@ -18,20 +19,26 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Entry x:Name="lbl_editor" Placeholder="Bearbeiter" IsEnabled="False" Grid.Row="0" Grid.Column="0" Margin="0,0,15,40"/>
-                <Picker x:Name="lbl_customers" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Picker x:Name="lbl_customers" SelectedIndexChanged="OnPickerSelectedIndexChanged" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
 
                 <Entry x:Name="datetitel" Placeholder="Titel" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
 
-                <Entry x:Name="lbl_plz" TextChanged="OnPLZChanged" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40" ></Entry>
-                <Entry x:Name="lbl_destination" IsEnabled="True" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_plz" Placeholder="Postleitzahl" TextChanged="OnPLZChanged" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40" ></Entry>
+                <Entry x:Name="lbl_destination" Placeholder="Adresse" IsEnabled="True" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
 
-                <DatePicker x:Name="dpp_return" Grid.Row="3" MinimumWidthRequest="200" HorizontalOptions="FillAndExpand" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_adress" Placeholder="Adresse" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
                 
-                <Button Text="Termin löschen" Clicked="OnButtonDeleteClicked" Grid.Row="4" Margin="10" Grid.Column="0" />
-                <Button Text="Termin anlegen" Clicked="OnButtonAddClicked" Grid.Row="4" Margin="10" Grid.Column="1" />
+                <Entry x:Name="lbl_notes" Placeholder="Notizen" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+
+                <Button Text="Termin löschen" Clicked="OnButtonDeleteClicked" Grid.Row="5" Margin="10" Grid.Column="0" />
+                <Button Text="Termin anlegen" Clicked="OnButtonAddClicked" Grid.Row="5" Margin="10" Grid.Column="1" />
+
+                <Image Grid.Column="3" Grid.Row="0" WidthRequest="50" HeightRequest="50" Source="mail.png" x:Name="mail_image"/>
             </Grid>
         </VerticalStackLayout>
     </StackLayout>
