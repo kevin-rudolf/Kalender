@@ -7,7 +7,7 @@
     <StackLayout>
         <Label x:Name="lbl_titel"/>
         <VerticalStackLayout>
-            <Grid Margin="45" HorizontalOptions="FillAndExpand">
+            <Grid Margin="45" HorizontalOptions="FillAndExpand" x:Name="assignmentgrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="6*"/>
                     <RowDefinition Height="6*"/>
@@ -23,22 +23,34 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <Label x:Name="lbl_id" IsVisible="False" Grid.Row="0" Grid.Column="0" Margin="0,0,0,40"/>
                 <Entry x:Name="lbl_editor" Placeholder="Bearbeiter" IsEnabled="False" Grid.Row="0" Grid.Column="0" Margin="0,0,15,40"/>
-                <Picker x:Name="lbl_customers" SelectedIndexChanged="OnPickerSelectedIndexChanged" HorizontalOptions="FillAndExpand" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Picker x:Name="lbl_customers" SelectedIndexChanged="OnPickerSelectedIndexChanged" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Button Text="Mitarbeiter hinzufügen" Clicked="OnEmployeeClicked" HorizontalOptions="Start" Grid.Row="0" Grid.Column="2" Margin="0,0,0,40" />
 
-                <Entry x:Name="datetitel" Placeholder="Titel" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="datetitel" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Margin="0,0,0,40"/>
+                <Picker x:Name="lbl_importance" Grid.Row="1" Grid.Column="1" Margin="0,0,0,40"/>
 
-                <Entry x:Name="lbl_plz" Placeholder="Postleitzahl" TextChanged="OnPLZChanged" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40" ></Entry>
+                <Entry x:Name="lbl_plz" Placeholder="Postleitzahl" TextChanged="OnPLZChanged" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40" />
                 <Entry x:Name="lbl_destination" Placeholder="Adresse" IsEnabled="True" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
 
                 <Entry x:Name="lbl_adress" Placeholder="Adresse" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
                 
-                <Entry x:Name="lbl_notes" Placeholder="Notizen" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_notes" Placeholder="Notizen" Grid.Row="4" Grid.Column="0" Margin="0,0,0,40"/>
+                <Picker x:Name="lbl_repeat" Grid.Row="4" Grid.Column="1" Margin="0,0,0,40"/>
 
                 <Button Text="Termin löschen" Clicked="OnButtonDeleteClicked" Grid.Row="5" Margin="10" Grid.Column="0" />
-                <Button Text="Termin anlegen" Clicked="OnButtonAddClicked" Grid.Row="5" Margin="10" Grid.Column="1" />
+                <Button Text="Termin anlegen" x:Name="btn_save" Clicked="OnButtonAddClicked" Grid.Row="5" Margin="10" Grid.Column="1" />
 
-                <Image Grid.Column="3" Grid.Row="0" WidthRequest="50" HeightRequest="50" Source="mail.png" x:Name="mail_image"/>
+                <Entry x:Name="lbl_vorname_e" IsVisible="False" Placeholder="Vorname" Grid.Row="1" Grid.Column="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_nachname_e" IsVisible="False" Placeholder="Nachname" Grid.Row="1" Grid.Column="3" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_email_e" IsVisible="False" Placeholder="E-Mail" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_plz_e" IsVisible="False" Placeholder="PLZ" Grid.Row="3" Grid.Column="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_city_e" IsVisible="False" Placeholder="Stadt" Grid.Row="3" Grid.Column="3" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_address_e" IsVisible="False" Placeholder="Adresse" Grid.Row="4" Grid.Column="2" Margin="0,0,0,40"/>
+                <DatePicker x:Name="lbl_birthday_e" IsVisible="False" MinimumDate="01.01.1900" Grid.Row="4" Grid.Column="3" Margin="0,0,0,40"/>
+                <Button Clicked="SaveButtonClicked" IsVisible="False" Grid.Row="5" Grid.Column="2" Margin="10" x:Name="btn_saveemployee" Text="Mitarbeiter speichern"/>
+                <Button Clicked="DeleteButtonClicked" IsVisible="False" x:Name="btn_deleteemployee" Margin="10" Grid.Row="5" Grid.Column="3" Text="Mitarbeiter Löschen"/>
             </Grid>
         </VerticalStackLayout>
     </StackLayout>

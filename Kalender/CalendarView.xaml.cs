@@ -1,4 +1,7 @@
 using Kalender.Models;
+using Kalender.Utils;
+using System;
+using System.IO;
 
 namespace Kalender;
 
@@ -8,25 +11,44 @@ public partial class CalendarView : ContentPage
     {
         InitializeComponent();
 
-        #region Temp
-        //temp-part --> custom test-api-data
-        SessionData.datadic.Add(new DateTime(2023, 01, 09), "SWP-Stunde");
-        SessionData.datadic.Add(new DateTime(2023, 01, 15), "Event #1");
-        SessionData.datadic.Add(new DateTime(2023, 01, 25), "Event #2");
-        #endregion
+        List<CalendarModel> temp = DBHandler.GetAllAssignments();
+
+        foreach(var assignment in temp)
+        {
+            try
+            {
+                SessionData.datadic.Add(assignment.date.Date, assignment.titel);
+                SessionData.dataimp.Add(assignment.date.Date, assignment.importance);
+            }
+            catch
+            {   }
+        }
 
         SessionData.monthcounter = 0;
 
         CreateGrid();
 
-        FillBasicData();
-    }
+        MessagingCenter.Subscribe<Application>(Application.Current, "RefreshMainPage", (sender) =>
+        {
+            SessionData.datadic.Clear();
+            SessionData.dataimp.Clear();
 
-    private void FillBasicData()
-    {
-        //will be changed to api
-        SessionData.editorname = "Rudolf";
-        SessionData.editorsurname = "Kevin";
+            List<CalendarModel> temp = DBHandler.GetAllAssignments();
+
+            foreach (var assignment in temp)
+            {
+                try
+                {
+                    SessionData.datadic.Add(assignment.date.Date, assignment.titel);
+                    SessionData.dataimp.Add(assignment.date.Date, assignment.importance);
+                }
+                catch
+                {
+                }
+            }
+
+            CreateGrid();
+        });
     }
 
     private HorizontalStackLayout CreateArrows()
@@ -39,7 +61,6 @@ public partial class CalendarView : ContentPage
         {
             SessionData.monthcounter--;
             CreateGrid();
-            FillBasicData();
         };
 
         var pic_tap_right = new TapGestureRecognizer();
@@ -47,7 +68,6 @@ public partial class CalendarView : ContentPage
         {
             SessionData.monthcounter++;
             CreateGrid();
-            FillBasicData();
         };
 
         Image image = new Image();
@@ -101,6 +121,62 @@ public partial class CalendarView : ContentPage
 
             Navigation.PopAsync();
             Navigation.PushAsync(new AddAssignment());
+        };
+
+        var label_movefrom = new DragGestureRecognizer();
+
+        label_movefrom.DragStarting += (object s, DragStartingEventArgs e) =>
+        {
+            //var label = (s as Element)?.Parent as Label;
+            //e.Data.Properties.Add("Text", label.Text);
+
+
+
+            Frame data = s as Frame;
+
+            VerticalStackLayout items = (VerticalStackLayout)data.Content;
+
+            var item = items[0];
+
+
+            //e.Data.Properties.Add("Text", (VerticalStackLayout)(data.Content).Ch;
+
+            var f = (s as Element)?.Parent as Frame;
+            VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
+            verticalStackLayout = f.Content as VerticalStackLayout;
+            Label l = (Label)verticalStackLayout.Children[0];
+            //e.Data.Properties.Add("Text", l.Text);
+        };
+
+        var label_moveto = new DropGestureRecognizer();
+        label_moveto.Drop += (object s, DropEventArgs e) =>
+        {
+            try
+            {
+                var data = e.Data.Properties["Text"].ToString();
+
+                CalendarModel model = new CalendarModel();
+                model = DBHandler.GetAssignmentDateTime(Convert.ToDateTime(SessionData.DragTemp));
+                model.date = Convert.ToDateTime(data);
+                DBHandler.ModifyAssignment(model);
+
+                SessionData.dataimp.Clear();
+
+                List<CalendarModel> temp = DBHandler.GetAllAssignments();
+
+                foreach (var assignment in temp)
+                {
+                    try
+                    {
+                        SessionData.datadic.Add(assignment.date.Date, assignment.titel);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch
+            {   }
         };
 
         //Grid creation 
@@ -162,12 +238,16 @@ public partial class CalendarView : ContentPage
                 f.BackgroundColor = Colors.LightGray;
 
                 f.GestureRecognizers.Add(label_tap);
+                f.GestureRecognizers.Add(label_moveto);
+                f.GestureRecognizers.Add(label_movefrom);
+
 
                 Label l = new Label();
                 l.Text = realdate.AddDays(dayscounter).Day.ToString() + "." + realdate.AddDays(dayscounter).Month.ToString() + "." + realdate.AddDays(dayscounter).Year.ToString();
                 l.HorizontalOptions = LayoutOptions.Center;
                 l.VerticalOptions = LayoutOptions.Center;
                 l.TextColor = Color.Parse("Black");
+
 
                 Label l2 = new Label();
                 l2.HorizontalOptions = LayoutOptions.Center;
@@ -180,6 +260,15 @@ public partial class CalendarView : ContentPage
                     if (SessionData.datadic[dt] != "")
                     {
                         l2.Text = SessionData.datadic[dt];
+
+                        if (SessionData.dataimp[dt] == 2)
+                        {
+                            l2.TextColor = Colors.Orange;
+                        }
+                        else if (SessionData.dataimp[dt] == 3)
+                        {
+                            l2.TextColor = Colors.Red;
+                        }
                     }
                     else
                     {
@@ -219,6 +308,8 @@ public partial class CalendarView : ContentPage
                     f.BackgroundColor = Colors.Gray;
 
                     f.GestureRecognizers.Add(label_tap);
+                    f.GestureRecognizers.Add(label_moveto);
+                    f.GestureRecognizers.Add(label_movefrom);
 
 
                     Label l = new Label();
@@ -238,6 +329,15 @@ public partial class CalendarView : ContentPage
                         if (SessionData.datadic[dt] != "")
                         {
                             l2.Text = SessionData.datadic[dt];
+
+                            if (SessionData.dataimp[dt] == 2)
+                            {
+                                l2.TextColor = Colors.Orange;
+                            }
+                            else if (SessionData.dataimp[dt] == 3)
+                            {
+                                l2.TextColor = Colors.Red;
+                            }
                         }
                         else
                         {
@@ -270,6 +370,8 @@ public partial class CalendarView : ContentPage
                         f.BackgroundColor = Colors.LightGray;
 
                         f.GestureRecognizers.Add(label_tap);
+                        f.GestureRecognizers.Add(label_moveto);
+                        f.GestureRecognizers.Add(label_movefrom);
 
 
                         Label l = new Label();
@@ -288,6 +390,15 @@ public partial class CalendarView : ContentPage
                             if (SessionData.datadic[dt] != "")
                             {
                                 l2.Text = SessionData.datadic[dt];
+
+                                if (SessionData.dataimp[dt] == 2)
+                                {
+                                    l2.TextColor = Colors.Orange;
+                                }
+                                else if (SessionData.dataimp[dt] == 3)
+                                {
+                                    l2.TextColor = Colors.Red;
+                                }
                             }
                             else
                             {
@@ -316,7 +427,8 @@ public partial class CalendarView : ContentPage
                         f.BackgroundColor = Colors.LightGray;
 
                         f.GestureRecognizers.Add(label_tap);
-
+                        f.GestureRecognizers.Add(label_moveto);
+                        f.GestureRecognizers.Add(label_movefrom);
 
                         Label l = new Label();
                         l.Text = lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString() + "." + lastDayOfMonth.AddDays(1).Month.ToString() + "." + lastDayOfMonth.AddDays(1).Year.ToString();
@@ -327,12 +439,22 @@ public partial class CalendarView : ContentPage
                         Label l2 = new Label();
                         l2.HorizontalOptions = LayoutOptions.Center;
                         l2.VerticalOptions = LayoutOptions.Center;
+
                         DateTime dt = new DateTime(Convert.ToInt32(lastDayOfMonth.AddDays(1).Year.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(1).Month.ToString()), Convert.ToInt32(lastDayOfMonth.AddDays(dayscounter_nextmonth).Day.ToString()));
                         try
                         {
                             if (SessionData.datadic[dt] != "")
                             {
                                 l2.Text = SessionData.datadic[dt];
+
+                                if (SessionData.dataimp[dt] == 2)
+                                {
+                                    l2.TextColor = Colors.Orange;
+                                }
+                                else if (SessionData.dataimp[dt] == 3)
+                                {
+                                    l2.TextColor = Colors.Red;
+                                }
                             }
                             else
                             {
@@ -363,6 +485,8 @@ public partial class CalendarView : ContentPage
                     f.BackgroundColor = Colors.Gray;
 
                     f.GestureRecognizers.Add(label_tap);
+                    f.GestureRecognizers.Add(label_moveto);
+                    f.GestureRecognizers.Add(label_movefrom);
 
 
                     Label l = new Label();
@@ -373,12 +497,22 @@ public partial class CalendarView : ContentPage
                     Label l2 = new Label();
                     l2.HorizontalOptions = LayoutOptions.Center;
                     l2.VerticalOptions = LayoutOptions.Center;
+
                     DateTime dt = new DateTime(Convert.ToInt32(firstday.AddDays(dayscounter).Year.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Month.ToString()), Convert.ToInt32(firstday.AddDays(dayscounter).Day.ToString()));
                     try
                     {
                         if (SessionData.datadic[dt] != "")
                         {
                             l2.Text = SessionData.datadic[dt];
+
+                            if (SessionData.dataimp[dt] == 2) 
+                            {
+                                l2.TextColor = Colors.Orange;
+                            }
+                            else if (SessionData.dataimp[dt] == 3)
+                            {
+                                l2.TextColor = Colors.Red;
+                            }
                         }
                         else
                         {
@@ -409,5 +543,4 @@ public partial class CalendarView : ContentPage
 
         mainpage.Content = stl;
     }
-
 }

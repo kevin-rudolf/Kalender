@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.Login"
+             Title="Login">
+    <StackLayout>
+        <VerticalStackLayout>
+            <Grid Margin="45" HorizontalOptions="FillAndExpand" x:Name="assignmentgrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="logo_calendar.png" WidthRequest="400" HeightRequest="400" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0"></Image>
+
+                <Entry x:Name="lbl_username" Placeholder="Benutzername" IsEnabled="True" Grid.Row="1" Grid.Column="1" Margin="0,0,15,40"/>
+                <Entry x:Name="lbl_password" IsPassword="True" Placeholder="Passwort" IsEnabled="True" Grid.Row="1" Grid.Column="2" Margin="0,0,15,40"/>
+
+                <Button Text="Login" x:Name="btn_login" Clicked="OnButtonLoginClicked" Grid.Row="2" Margin="10" Grid.Column="1"/>
+                <Button Text="Daten ändern" x:Name="btn_changedata" Clicked="OnButtonChangeClicked" Grid.Row="2" Margin="10" Grid.Column="2"/>
+                <Label Text="*Registrieren" Grid.Row="3" TextColor="OrangeRed" Grid.Column="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLabelRegTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+        </VerticalStackLayout>
+    </StackLayout>
+</ContentPage>

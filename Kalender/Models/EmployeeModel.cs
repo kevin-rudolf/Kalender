@@ -8,19 +8,17 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Kalender.Models
 {
-    public class CalendarModel
+    public class EmployeeModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string _id { get; set; }
-        public string eid { get; set; }
-        public string titel { get; set; }
-        public int importance { get; set; }
+        public string surname { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
         public string plz { get; set; }
         public string city { get; set; }
         public string address { get; set; }
-        public string note { get; set; }
-        public int repeat { get; set; }
-        public DateTime date { get; set; }
+        public DateTime birthday { get; set; }
     }
 }

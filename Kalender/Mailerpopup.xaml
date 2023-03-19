@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.Mailerpopup"
+             Title="Mailerpopup"
+             x:Name="cp_mailerpopup">
+    <StackLayout>
+    <VerticalStackLayout>
+            <Grid HorizontalOptions="FillAndExpand" Margin="75,50,75,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <Entry x:Name="lbl_vorname" Placeholder="Vorname" Grid.Row="0" Grid.Column="0" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_nachname"  Placeholder="Nachname" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_email" Placeholder="E-Mail" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_emailserver" Placeholder="E-Mail Server" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_passwort" Placeholder="Passwort" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_passwort_repeat" Placeholder="Passwort Wiederholen" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Label FontSize="14" FontAttributes="Bold" Grid.Row="5" Text="* Passwort wird lokal / verschlüsselt gespeichert"/>
+                <Button Clicked="SaveButtonClicked" Grid.Row="6" Grid.Column="0" Text="Daten Speichern"/>
+                <Button Clicked="CancelButtonClicked" Grid.Row="6" Grid.Column="1" Text="Später hinzufügen"/>
+
+            </Grid>
+    </VerticalStackLayout>
+    </StackLayout>
+</ContentPage>

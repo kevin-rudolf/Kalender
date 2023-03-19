@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.EmployeeEdit"
+             Title="EmployeeEdit">
+    <StackLayout>
+        <VerticalStackLayout>
+            <Grid HorizontalOptions="FillAndExpand" Margin="75,50,75,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Entry x:Name="lbl_vorname" Placeholder="Vorname" Grid.Row="0" Grid.Column="0" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_nachname"  Placeholder="Nachname" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_email" Placeholder="E-Mail" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_plz" Placeholder="PLZ" Grid.Row="2" Grid.Column="0" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_city" Placeholder="Stadt" Grid.Row="2" Grid.Column="1" Margin="0,0,0,40"/>
+                <Entry x:Name="lbl_address" Placeholder="Adresse" Grid.Row="3" Grid.Column="0" Margin="0,0,0,40"/>
+                <DatePicker x:Name="lbl_birthday" MinimumDate="01.01.1900" Grid.Row="3" Grid.Column="1" Margin="0,0,0,40"/>
+                <Button Clicked="SaveButtonClicked" Grid.Row="4" Grid.Column="0" Text="Mitarbeiter Speichern"/>
+                <Button Clicked="DeleteButtonClicked" Grid.Row="4" Grid.Column="1" Text="Mitarbeiter Löschen"/>
+
+            </Grid>
+        </VerticalStackLayout>
+    </StackLayout>
+</ContentPage>

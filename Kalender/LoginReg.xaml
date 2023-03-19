@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kalender.LoginReg"
+             Title="Register">
+    <StackLayout>
+        <VerticalStackLayout>
+            <Grid Margin="45" HorizontalOptions="FillAndExpand" x:Name="assignmentgrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Entry x:Name="lbl_surname" Placeholder="Vorname" IsEnabled="True" Grid.Row="0" Grid.Column="1" Margin="0,0,15,40"/>
+                <Entry x:Name="lbl_name" Placeholder="Nachname" IsEnabled="True" Grid.Row="0" Grid.Column="2" Margin="0,0,15,40"/>
+
+                <Entry x:Name="lbl_username" Placeholder="Benutzername" IsEnabled="True" Grid.Row="1" Grid.Column="1" Margin="0,0,15,40"/>
+                <Entry x:Name="lbl_password" IsPassword="True" Placeholder="Passwort" IsEnabled="True" Grid.Row="1" Grid.Column="2" Margin="0,0,15,40"/>
+
+                <Entry x:Name="lbl_password_again" IsPassword="True" Placeholder="Passwort bestätigen" IsEnabled="True" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,15,40"/>
+
+                <Entry x:Name="lbl_smtp" Placeholder="SMTP-Server" IsEnabled="True" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,15,40"/>
+
+                <Entry x:Name="lbl_email" Placeholder="E-Mail" IsSpellCheckEnabled="False" IsEnabled="True" Grid.Row="4" Grid.Column="1" Margin="0,0,15,40"/>
+                <Entry x:Name="lbl_smtppassword" IsPassword="True" IsSpellCheckEnabled="False" Placeholder="E-Mail Passwort" IsEnabled="True" Grid.Row="4" Grid.Column="2" Margin="0,0,15,40"/>
+                <Label Text="Ihr Passwort wird verschlüsselt auf der DB gespeichert." Grid.Row="5" Grid.Column="2"></Label>
+
+                <Button Text="Registrieren" x:Name="btn_register" Clicked="OnButtonRegClicked" Grid.Row="6" Margin="10" Grid.Column="1" Grid.ColumnSpan="2" />
+            </Grid>
+        </VerticalStackLayout>
+    </StackLayout>
+</ContentPage>
