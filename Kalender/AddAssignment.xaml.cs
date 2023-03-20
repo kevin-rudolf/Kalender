@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Amazon.Runtime.EventStreams.Internal;
@@ -12,6 +13,7 @@ public partial class AddAssignment : ContentPage
     private string pickervalue;
     private bool alreadyfilled = false;
     private string alreadyfilledid = "";
+    private ViewList vList = new ViewList();
     public AddAssignment()
     {
         InitializeComponent();
@@ -38,18 +40,18 @@ public partial class AddAssignment : ContentPage
             btn_save.Text = "Termin ändern";
         }
     }
-    private List<string> customerlist = new List<string>();
     private void FillData()
     {
+        vList.List = new ObservableCollection<string>();
         lbl_editor.Text = SessionData.editorsurname + " " + SessionData.editorname;
 
         //fills custom data - will be changed to api
-        customerlist.Add("Bitte wählen Sie einen Mitarbeiter aus:");
+        vList.List.Add("Bitte wählen Sie einen Mitarbeiter aus:");
 
         var task = Task.Run<List<string>>(async () => await DBHandler.GetAllEmployeesName());
         var result = task.Result;
 
-        customerlist.AddRange(result);
+        result.ForEach(x => vList.List.Add(x));
 
         List<string> importancelist = new List<string>();
         importancelist.Add("Wählen Sie die Dringlichkeit Ihres Termins");
@@ -61,8 +63,7 @@ public partial class AddAssignment : ContentPage
         repeatlist.Add("Soll der Termin monatlich wiederhohlt werden?");
         repeatlist.Add("Jedes Monat wiederholen");
 
-        lbl_customers.ItemsSource = customerlist;
-        lbl_customers.SelectedItem = customerlist[0];
+        this.BindingContext = vList;
         lbl_importance.ItemsSource = importancelist;
         lbl_importance.SelectedItem = importancelist[0];
         lbl_repeat.ItemsSource = repeatlist;
@@ -291,16 +292,7 @@ public partial class AddAssignment : ContentPage
             em.email = lbl_email_e.Text;
             em.birthday = lbl_birthday_e.Date;
 
-            DBHandler.InsertEmployee(em);
-
-            //Wie geht das mit Clearen --> sollte dann autoamtisch wenn mitarbeiter erstellt --> zurückgesetzt werden und zu liste hinzugefügt werden
-            customerlist.Clear();
-            //customerlist.Add("Bitte wählen Sie einen Mitarbeiter aus:");
-
-            //var task = Task.Run<List<string>>(async () => await DBHandler.GetAllEmployeesName());
-            //var result = task.Result;
-
-            //customerlist.AddRange(result);
+            DBHandler.InsertEmployee(em);            
         }
         else
         {
@@ -315,15 +307,14 @@ public partial class AddAssignment : ContentPage
             em.birthday = lbl_birthday_e.Date;
 
             DBHandler.ModifyEmployee(em);
-
-            customerlist.Clear();
-            customerlist.Add("Bitte wählen Sie einen Mitarbeiter aus:");
-
-            var task = Task.Run<List<string>>(async () => await DBHandler.GetAllEmployeesName());
-            var result = task.Result;
-
-            customerlist.AddRange(result);
         }
+        vList.List.Clear();
+        vList.List.Add("Bitte wählen Sie einen Mitarbeiter aus:");
+
+        var task = Task.Run<List<string>>(async () => await DBHandler.GetAllEmployeesName());
+        var result = task.Result;
+
+        result.ForEach(x => vList.List.Add(x));
     }
 
     private void DeleteButtonClicked(object sender, EventArgs args)
@@ -340,12 +331,12 @@ public partial class AddAssignment : ContentPage
 
         DBHandler.RemoveEmployee(em._id);
 
-        customerlist.Clear();
-        customerlist.Add("Bitte wählen Sie einen Mitarbeiter aus:");
+        vList.List.Clear();
+        vList.List.Add("Bitte wählen Sie einen Mitarbeiter aus:");
 
         var task = Task.Run<List<string>>(async () => await DBHandler.GetAllEmployeesName());
         var result = task.Result;
 
-        customerlist.AddRange(result);
+        result.ForEach(x => vList.List.Add(x));
     }
 }

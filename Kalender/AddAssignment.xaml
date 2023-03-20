@@ -25,7 +25,7 @@
 
                 <Label x:Name="lbl_id" IsVisible="False" Grid.Row="0" Grid.Column="0" Margin="0,0,0,40"/>
                 <Entry x:Name="lbl_editor" Placeholder="Bearbeiter" IsEnabled="False" Grid.Row="0" Grid.Column="0" Margin="0,0,15,40"/>
-                <Picker x:Name="lbl_customers" SelectedIndexChanged="OnPickerSelectedIndexChanged" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
+                <Picker x:Name="lbl_customers" ItemsSource="{Binding List}" SelectedIndexChanged="OnPickerSelectedIndexChanged" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" Margin="0,0,0,40"/>
                 <Button Text="Mitarbeiter hinzufügen" Clicked="OnEmployeeClicked" HorizontalOptions="Start" Grid.Row="0" Grid.Column="2" Margin="0,0,0,40" />
 
                 <Entry x:Name="datetitel" Placeholder="Titel" Grid.Row="1" Grid.Column="0" Margin="0,0,0,40"/>
